@@ -69,6 +69,12 @@ module.exports = [
         content: $translate.instant('BATCHES_PROGRESS_TYPE')
       },
       {
+        class: 'start-time',
+        request: 'startTime',
+        sortable: true,
+        content: $translate.instant('BATCHES_PROGRESS_START_TIME')
+      },
+      {
         class: 'failed',
         request: '',
         sortable: false,

@@ -18,6 +18,7 @@ package org.camunda.bpm.engine.test.api.mgmt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.camunda.bpm.engine.test.api.runtime.TestOrderingUtil.batchStatisticsById;
+import static org.camunda.bpm.engine.test.api.runtime.TestOrderingUtil.batchStatisticsByStartTime;
 import static org.camunda.bpm.engine.test.api.runtime.TestOrderingUtil.inverted;
 import static org.camunda.bpm.engine.test.api.runtime.TestOrderingUtil.verifySorting;
 import static org.junit.Assert.assertEquals;
@@ -255,6 +256,36 @@ public class BatchStatisticsQueryTest {
 
     // then
     verifySorting(statistics, inverted(batchStatisticsById()));
+  }
+
+  @Test
+  public void testQueryOrderByStartTimeAsc() {
+    // given
+    helper.migrateProcessInstancesAsync(1);
+    helper.migrateProcessInstancesAsync(1);
+
+    // when
+    List<BatchStatistics> statistics = managementService.createBatchStatisticsQuery()
+      .orderByStartTime().asc()
+      .list();
+
+    // then
+    verifySorting(statistics, batchStatisticsByStartTime());
+  }
+
+  @Test
+  public void testQueryOrderByStartTimeDesc() {
+    // given
+    helper.migrateProcessInstancesAsync(1);
+    helper.migrateProcessInstancesAsync(1);
+
+    // when
+    List<BatchStatistics> statistics = managementService.createBatchStatisticsQuery()
+      .orderByStartTime().desc()
+      .list();
+
+    // then
+    verifySorting(statistics, inverted(batchStatisticsByStartTime()));
   }
 
   @Test
